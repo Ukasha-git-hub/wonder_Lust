@@ -45,6 +45,12 @@ app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")))
 
+
+if (!dbURL) {
+    console.log("❌ ATLASDB_URL is missing");
+    process.exit(1);
+}
+
 main()
     .then((result) => {
         console.log("connected to data base");
@@ -54,8 +60,9 @@ main()
         console.log(err);
     })
 async function main() {
-    await mongoose.connect(dbURL);
     console.log("DB URL:", process.env.ATLASDB_URL);
+    await mongoose.connect(dbURL);
+
 }
 const store = MongoStore.create({
     mongoUrl: dbURL,
