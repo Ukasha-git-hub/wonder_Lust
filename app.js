@@ -55,6 +55,7 @@ main()
     })
 async function main() {
     await mongoose.connect(dbURL);
+    console.log("DB URL:", process.env.ATLASDB_URL);
 }
 const store = MongoStore.create({
     mongoUrl: dbURL,
