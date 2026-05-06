@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 // const mongo_url = "mongodb://127.0.0.1:27017/wonderlust";
-const dbURl = process.env.ATLASDB_URL
+const dbURL = process.env.ATLASDB_URL
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 // using ejsMat
@@ -54,23 +54,23 @@ main()
         console.log(err);
     })
 async function main() {
-    await mongoose.connect(dbURl);
+    await mongoose.connect(dbURL);
 }
 const store = MongoStore.create({
-    mongoUrl: dbURl,
+    mongoUrl: dbURL,
     crypto: {
         secret: process.env.SECRET
     },
     touchAfter: 24 * 3600,
 
 });
-store.on("store", () => {
-    console.log("error in mongo session store ");
+store.on("error", (err) => {
+    console.log("error in mongo session store ", err);
 })
 const sessionOptions = {
 
     store: store,
-    secret: process.env.SECRET,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
