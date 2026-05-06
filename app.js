@@ -47,7 +47,7 @@ app.use(express.static(path.join(__dirname, "/public")))
 
 
 if (!dbURL) {
-    console.log("❌ ATLASDB_URL is missing");
+    console.log("ATLASDB_URL is missing");
     process.exit(1);
 }
 
@@ -67,7 +67,7 @@ async function main() {
 const store = MongoStore.create({
     mongoUrl: dbURL,
     crypto: {
-        secret: process.env.SECRET
+        secret: process.env.SESSION_SECRET
     },
     touchAfter: 24 * 3600,
 
